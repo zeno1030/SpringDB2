@@ -5,28 +5,43 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
 @SpringBootTest
 class ItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
 
+    /*@Autowired
+    PlatformTransactionManager transactionManager;
+    TransactionStatus status;
+
+    @BeforeEach
+    void beforeEach(){
+        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+    }*/
     @AfterEach
     void afterEach() {
         //MemoryItemRepository 의 경우 제한적으로 사용
         if (itemRepository instanceof MemoryItemRepository) {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
+//        transactionManager.rollback(status);
     }
-
+    @Commit
+    @Transactional
     @Test
     void save() {
         //given
@@ -75,7 +90,7 @@ class ItemRepositoryTest {
 
         //itemName 검증
         test("itemA", null, item1, item2);
-        test("temA", null, item1, item2);
+        test("itemA", null, item1, item2);
         test("itemB", null, item3);
 
         //maxPrice 검증
