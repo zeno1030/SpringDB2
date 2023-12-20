@@ -23,22 +23,12 @@ class ItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
-
-    /*@Autowired
-    PlatformTransactionManager transactionManager;
-    TransactionStatus status;
-
-    @BeforeEach
-    void beforeEach(){
-        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-    }*/
     @AfterEach
     void afterEach() {
         //MemoryItemRepository 의 경우 제한적으로 사용
         if (itemRepository instanceof MemoryItemRepository) {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
-//        transactionManager.rollback(status);
     }
     @Commit
     @Transactional
