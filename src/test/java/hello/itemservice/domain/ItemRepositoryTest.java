@@ -3,6 +3,7 @@ package hello.itemservice.domain;
 import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
+import hello.itemservice.repository.jpa.JpaItemRepository;
 import hello.itemservice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
 
@@ -30,8 +31,7 @@ class ItemRepositoryTest {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
     }
-    @Commit
-    @Transactional
+
     @Test
     void save() {
         //given
@@ -46,6 +46,7 @@ class ItemRepositoryTest {
     }
 
     @Test
+    @Commit
     void updateItem() {
         //given
         Item item = new Item("item1", 10000, 10);
